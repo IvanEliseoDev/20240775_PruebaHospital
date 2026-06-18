@@ -2,7 +2,7 @@
 export const config = {
 
     db:{
-        URI: "mongodb://localhost:27017"
+        URI: "mongodb://localhost:27017/HospitalRosales1A"
     },
     server:{
         PORT: 4000

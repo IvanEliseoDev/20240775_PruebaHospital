@@ -13,6 +13,23 @@ export const patientController = [{
             return res.status(500).json({status:200, message:"Error interno del servidor - revisar server logs", data:null})
         }
     },
+    updatePatient: async(req, res) => {
+        try {
+            const id = req.params.id
+            const patientFound = await patientModel.findById(id)
+            if(!patientFound) return res.status(404).json({status:404, message:"Paciente no encontrado", data: null})
+            const newPatient = new patientModel(req.body)
+            if(req.file) {
+                newPatient.photo = req.files.path,
+                newPatient.photoPublicId = req.files.filename 
+            }
+            const updatedPatient = await patientModel.findByIdAndUpdate(id, newPatient , {new:true})
+            return res.status(200).json({status:200, message:"Paciente actualizado exitosamente", data: updatedPatient})
+        } catch (error) {
+            console.log("error en get patients: ", error)
+            return res.status(500).json({status:200, message:"Error interno del servidor - revisar server logs", data:null})
+        }
+    },
     deletePatient: async(req, res) => {
         try {
             const id = req.params.id
