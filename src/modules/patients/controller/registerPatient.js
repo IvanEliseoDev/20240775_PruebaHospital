@@ -8,7 +8,9 @@ import { config } from "../../../config/config.js";
 export const registerPatientController = {
   addPatient: async (req, res) => {
     try {
-      const patientReq = req.body;
+      const patientReq = JSON.parse(req.body.data);
+      console.log("patient from data ", patientReq)
+      console.log("form data password ", patientReq.password)
       if (!patientReq)
         return res
           .status(400)
@@ -69,11 +71,12 @@ export const registerPatientController = {
   verifyCode: async(req, res) => {
     try {
         const {verifyCodeRequest} = req.body
-        const token = res.cookies.VerificationToken
+        const token = req.cookies.VerificationToken
         const decoded = jwt.verify(token, config.jwt.secret)
         const customDecoded = decoded
         console.log("CustomDecoded ", customDecoded)
-        if(verifyCodeRequest !== customDecoded.code) return res.status(400).json({status: 400, message:"Error el codigo de verificacion es invalido", data: null})
+        console.log(".verificationCode ", customDecoded.verificationCode)
+        if(verifyCodeRequest !== customDecoded.verificationCode) return res.status(400).json({status: 400, message:"Error el codigo de verificacion es invalido", data: null})
         const patient = await patientModel.findOne({email: customDecoded.email})
         patient.isVerified = true
         await patient.save()
@@ -82,7 +85,7 @@ export const registerPatientController = {
     } catch (error) {
       console.log("error en verify patients: ", error);
       return res.status(500).json({
-        status: 200,
+        status: 500,
         message: "Error interno del servidor - revisar server logs",
         data: null,
       });

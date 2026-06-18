@@ -12,7 +12,7 @@ patientRouter.route("/")
 
 patientRouter.route("/:id").delete(patientController.deletePatient).put(upload.single("image"), patientController.updatePatient)
 
-patientRouter.route("/verifyCode").get(patientController.getPatients).post(registerPatientController.verifyCode)
+patientRouter.route("/verifyCode").post(registerPatientController.verifyCode)
 
 patientRouter.route("/login").post(loginPatientController.login)
 

@@ -1,4 +1,4 @@
-import v2 from "cloudinary"
+import {v2} from "cloudinary"
 import { CloudinaryStorage} from "multer-storage-cloudinary"
 import multer from "multer"
 
@@ -9,7 +9,7 @@ v2.config({
 })
 
 const storage = new CloudinaryStorage({
-    cloudinary: {v2},
+    cloudinary: v2,
     params:{
         folder: "hospitalRosales",
         allowed_format: ["jpg", "png", "jpg", "webp", "svg"]

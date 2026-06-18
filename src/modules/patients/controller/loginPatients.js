@@ -8,14 +8,17 @@ export const loginPatientController = {
     login: async(req, res) => {
         try {
             const {email, password} = req.body
-            const patient = patientModel.findOne({email})
+            const patient = await patientModel.findOne({email})
            
             if(!patient) res.status(404).json({status:400, message:"Paciente no encontrado", data: null})
            
             if(patient.timeOut && patient.timeOut > Date.now()) return res.status(401).json({status:401, message:"error 401 en login", data:null})
+
+            console.log("patientPassword ", patient.password)
             const isMatch = await bcrypt.compare(password, patient.password || "")
             const patientSave = new patientModel(patient)
             if(!isMatch){
+                console.log("no son match")
                 if(patient.loginAttempts >= 5){
                     patientSave.timeOut = Date.now() + 10 * 60 * 1000
                     patientSave.loginAttempts = 0
