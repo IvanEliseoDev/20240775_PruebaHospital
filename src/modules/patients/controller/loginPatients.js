@@ -1,7 +1,7 @@
 import { patientModel } from "../models/patientModel.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import { config } from "../../../config/config"
+import { config } from "../../../config/config.js"
 
 export const loginPatientController = {
 
@@ -35,7 +35,7 @@ export const loginPatientController = {
             res.status(200).json({status:200, message:"Inicio de sesion exitoso", data:patientInserted})
         } catch (error) {
             console.log("error en login patients: ", error)
-            return res.status(500).json({status:200, message:"Error interno del servidor - revisar server logs", data:null})
+            return res.status(500).json({status:500, message:"Error interno del servidor - revisar server logs", data:null})
         }
     },
 

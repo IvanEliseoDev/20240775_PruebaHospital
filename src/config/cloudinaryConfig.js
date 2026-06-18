@@ -9,7 +9,7 @@ v2.config({
 })
 
 const storage = new CloudinaryStorage({
-    v2,
+    cloudinary: {v2},
     params:{
         folder: "hospitalRosales",
         allowed_format: ["jpg", "png", "jpg", "webp", "svg"]

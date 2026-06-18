@@ -6,7 +6,9 @@ import { loginPatientController } from "../controller/loginPatients.js"
 
 export const patientRouter = express.Router()
 
-patientRouter.route("/").get(patientController.getPatients).post(upload.single("image"), registerPatientController.addPatient)
+patientRouter.route("/")
+.get(patientController.getPatients)
+.post(upload.single("image"), registerPatientController.addPatient)
 
 patientRouter.route("/:id").delete(patientController.deletePatient).put(upload.single("image"), patientController.updatePatient)
 

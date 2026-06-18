@@ -1,8 +1,8 @@
-import { patientModel } from "../models/patientModel"
+import { patientModel } from "../models/patientModel.js"
 import v2 from "cloudinary"
+import bcrypt from "bcrypt"
 
-export const patientController = [{
-    
+export const patientController = {
     getPatients: async(req, res) => {
         try {
             const patients = await patientModel.find()
@@ -19,6 +19,9 @@ export const patientController = [{
             const patientFound = await patientModel.findById(id)
             if(!patientFound) return res.status(404).json({status:404, message:"Paciente no encontrado", data: null})
             const newPatient = new patientModel(req.body)
+            if(req.body.password){
+                 newPatient.password = await bcrypt.hash(req.params.password, 10);
+            }
             if(req.file) {
                 newPatient.photo = req.files.path,
                 newPatient.photoPublicId = req.files.filename 
@@ -43,4 +46,4 @@ export const patientController = [{
             return res.status(500).json({status:200, message:"Error interno del servidor - revisar server logs", data:null})
         }
     }
-}]
+}
