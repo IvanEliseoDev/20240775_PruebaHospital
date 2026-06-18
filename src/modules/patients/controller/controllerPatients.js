@@ -1,7 +1,7 @@
 import { patientModel } from "../models/patientModel"
 import v2 from "cloudinary"
 
-export const patientController = {
+export const patientController = [{
     
     getPatients: async(req, res) => {
         try {
@@ -26,4 +26,4 @@ export const patientController = {
             return res.status(500).json({status:200, message:"Error interno del servidor - revisar server logs", data:null})
         }
     }
-}
+}]
