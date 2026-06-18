@@ -1,4 +1,4 @@
-import { medicalAppointmentsModel } from "../model/medicalAppointmentsModel"
+import { medicalAppointmentsModel } from "../model/medicalAppointmentsModel.js"
 
 export const medicalAppointmentsController = {
     getAllMedicalsAppointments: async(req, res) => {
@@ -17,32 +17,32 @@ export const medicalAppointmentsController = {
                 if(!medicalAppointmentsReq) return res.status(400).json({status:400, message:"Bad request - al insertar una cita medica", data: null})
                 const medicalAppointmentsInsert = new medicalAppointmentsModel(medicalAppointmentsReq)
                 medicalAppointmentsInsert.status= true
-                const specialtySaved = await specialtyInserted.save()
-                return res.status(201).json({status:201, message:"Especialidad registrada exitosamente", data: specialtySaved})
+                const medicalAppointmetnsSave = await medicalAppointmentsInsert.save()
+                return res.status(201).json({status:201, message:"Cita medica registrada exitosamente", data: medicalAppointmetnsSave})
             } catch (error) {
                 console.log("error en get patients: ", error)
                 return res.status(500).json({status:200, message:"Error interno del servidor - revisar server logs", data:null})
             }
     },
-    updateSpecialty: async(req, res) => {
+    updateMedicalsAppointments: async(req, res) => {
              try {
                 const id = req.params.id
-                const specialtyReq = req.body
-                if(!specialtyReq) return res.status(400).json({status:400, message:"Bad request - al insertar una especialidad", data: null})
-                const specialtyUpdated = await specialtyModel.findByIdAndUpdate(id, specialtyReq, {new: true})
-                return res.status(201).json({status:201, message:"Especialidad actualizada exitosamente", data: specialtyUpdated})
+                const medicalAppointmentsReq = req.body
+                if(!medicalAppointmentsReq) return res.status(400).json({status:400, message:"Bad request - al actualizar una cita medica", data: null})
+                const medicalAppointmentsUpdated = await medicalAppointmentsModel.findByIdAndUpdate(id, medicalAppointmentsReq, {new: true})
+                return res.status(201).json({status:201, message:"cita medica actualizada exitosamente", data: medicalAppointmentsUpdated})
             } catch (error) {
-                console.log("error en get patients: ", error)
+                console.log("error en get updateSpecialty: ", error)
                 return res.status(500).json({status:200, message:"Error interno del servidor - revisar server logs", data:null})
             }
         },
-    deleteSpecialty: async(req, res) => {
+    deleteMedicalsAppointments: async(req, res) => {
              try {
                 const id = req.params.id
-                const specialtyDeleted = await specialtyModel.findByIdAndDelete(id)
-                return res.status(201).json({status:201, message:"Especialidad eliminada exitosamente", data: specialtyDeleted})
+                const medicalAppointmentsDeleted = await medicalAppointmentsModel.findByIdAndDelete(id)
+                return res.status(201).json({status:201, message:"Cita medica eliminada exitosamente", data: medicalAppointmentsDeleted})
             } catch (error) {
-                console.log("error en get patients: ", error)
+                console.log("error en get deleteSpecialty: ", error)
                 return res.status(500).json({status:200, message:"Error interno del servidor - revisar server logs", data:null})
             }
     }

@@ -41,6 +41,7 @@ export const recoveryPatientPasswordController = {
             const {recoveryCodeRequest} = req.body
             const token = res.cookies.VerificationRecoveryToken;
             const decoded = jwt.verify(token, config.jwt.secret)
+            const email = decoded.email
             console.log("Decoded de verifyCode", decoded)
             if(decoded.code !== recoveryCodeRequest) return res.status(400).json({status:400, message:"codigo de verificacion incorrecto", data:null})
             res.clearCookie("VerificationRecoveryToken")

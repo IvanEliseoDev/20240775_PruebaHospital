@@ -20,7 +20,7 @@ export const patientController = {
             if(!patientFound) return res.status(404).json({status:404, message:"Paciente no encontrado", data: null})
             const newPatient = new patientModel(req.body)
             if(req.body.password){
-                 newPatient.password = await bcrypt.hash(req.params.password, 10);
+                 newPatient.password = await bcrypt.hash(req.body.password, 10);
             }
             if(req.file) {
                 newPatient.photo = req.files.path,
