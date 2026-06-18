@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken"
+import crypto from "crypto"
 import bcrypt from "bcrypt"
 import nodemailer from "nodemailer"
 import { config } from "../../../config/config.js";
@@ -39,11 +40,11 @@ export const recoveryPatientPasswordController = {
     verifyRecoveryCode: async(req, res) => {
         try {
             const {recoveryCodeRequest} = req.body
-            const token = res.cookies.VerificationRecoveryToken;
+            const token = req.cookies.VerificationRecoveryToken;
             const decoded = jwt.verify(token, config.jwt.secret)
             const email = decoded.email
             console.log("Decoded de verifyCode", decoded)
-            if(decoded.code !== recoveryCodeRequest) return res.status(400).json({status:400, message:"codigo de verificacion incorrecto", data:null})
+            if(decoded.verificationCode !== recoveryCodeRequest) return res.status(400).json({status:400, message:"codigo de verificacion incorrecto", data:null})
             res.clearCookie("VerificationRecoveryToken")
             const tokenCode = jwt.sign(
                     { email, verified:true },
@@ -62,7 +63,7 @@ export const recoveryPatientPasswordController = {
         try {
             const {newPassword, confirmNewPassowrd} = req.body
             if(newPassword !== confirmNewPassowrd) return res.status(400).json({status:200, message:"error las contraseñas no coinciden", data: null})
-            const token = res.cookies.recoveryCookie;
+            const token = req.cookies.recoveryCookie;
             const decoded = jwt.verify(token, config.jwt.secret)
             console.log("Decoded de newPassword", decoded)
             if(!decoded.verified) return res.staus(400).json({status:400, message: "error no se encontro ningun codigo", data: null})

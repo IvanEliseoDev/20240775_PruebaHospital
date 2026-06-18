@@ -5,7 +5,7 @@ export const specialtyController = {
         try {
             const specialty = await specialtyModel.find()
             if(!specialty) return res.status(404).json({status:404, message:"Especialidades no encontrados exitosamente", data: null})
-             return res.status(200).json({status:200, message:"Especialidades encontrados exitosamente", data: patients})
+             return res.status(200).json({status:200, message:"Especialidades encontrados exitosamente", data: specialty})
         } catch (error) {
             console.log("error en get getSpecialty: ", error)
             return res.status(500).json({status:200, message:"Error interno del servidor - revisar server logs", data:null})

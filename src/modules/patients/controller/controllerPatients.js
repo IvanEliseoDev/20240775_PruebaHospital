@@ -21,17 +21,17 @@ export const patientController = {
             console.log("Update form data ", updReq)
             const patientFound = await patientModel.findById(id)
             if(!patientFound) return res.status(404).json({status:404, message:"Paciente no encontrado", data: null})
-            const newPatient = new patientModel(updReq)
-            if(req.body.password){
-                 newPatient.password = await bcrypt.hash(updReq.password, 10);
+        
+            if(updReq.password){
+                 updReq.password = await bcrypt.hash(updReq.password, 10);
             }
             if(req.file) {
                 console.log("patient photoPublic on update ", patientFound.photoPublicId)
                 await v2.uploader.destroy(patientFound.photoPublicId)
-                newPatient.photo = req.file.path,
-                newPatient.photoPublicId = req.file.filename 
+                updReq.photo = req.file.path,
+                updReq.photoPublicId = req.file.filename 
             }
-            const updatedPatient = await patientModel.findByIdAndUpdate(id, newPatient , {new:true})
+            const updatedPatient = await patientModel.findByIdAndUpdate(id, updReq , {new:true})
             return res.status(200).json({status:200, message:"Paciente actualizado exitosamente", data: updatedPatient})
         } catch (error) {
             console.log("error en get updatePatient: ", error)
